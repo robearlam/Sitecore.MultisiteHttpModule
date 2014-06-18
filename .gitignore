@@ -3,10 +3,8 @@
 *.dll
 
 # Bin & Obj dirs
-MultisiteHttpModule/bin/
-MultisiteHttpModule/obj/
-MultisiteHttpModule.Tests/bin/
-MultisiteHttpModule.Tests/obj/
+**/bin/
+**/obj/
 
 # Nuget & Packages
 .nuget/
