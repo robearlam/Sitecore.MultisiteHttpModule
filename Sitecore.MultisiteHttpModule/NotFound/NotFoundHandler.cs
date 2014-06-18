@@ -1,6 +1,5 @@
 ﻿using Sitecore.Data;
 using Sitecore.Diagnostics;
-using Sitecore.Links;
 using Sitecore.MultisiteHttpModule.Configuration;
 using Sitecore.Pipelines.HttpRequest;
 using Sitecore.SecurityModel;
@@ -12,15 +11,11 @@ namespace Sitecore.MultisiteHttpModule.NotFound
 {
     public class MultiSite404Handler : HttpRequestProcessor
     {
-        private readonly MultisiteHttpModuleSettings _settings;
-
-        public MultiSite404Handler()
-        {
-            _settings = ConfigurationManager.GetSection("multisiteHttpModule") as MultisiteHttpModuleSettings;
-        }
+        private MultisiteHttpModuleSettings _settings;
 
         public override void Process(HttpRequestArgs args)
         {
+            EnsureSettingsArePopulated();
             var context = HttpContext.Current;
             try
             {
@@ -35,6 +30,14 @@ namespace Sitecore.MultisiteHttpModule.NotFound
             }
         }
 
+        private void EnsureSettingsArePopulated()
+        {
+            if (_settings == null)
+            {
+                _settings = ConfigurationManager.GetSection("multisiteHttpModule") as MultisiteHttpModuleSettings;
+            }
+        }
+
         private void ProcessRequest(HttpRequestArgs args, HttpContext context)
         {
             if (IsNot404Request(context, args))
@@ -44,24 +47,24 @@ namespace Sitecore.MultisiteHttpModule.NotFound
 
             if (_settings.Sites[Context.Site.Name] != null)
             {
-                RedirectToSiteSpecific404Page(args, context);
+                SwitchTo404ItemAndChangeResponseType(args, context);
             }
         }
 
-        private void RedirectToSiteSpecific404Page(HttpRequestArgs args, HttpContext context)
+        private void SwitchTo404ItemAndChangeResponseType(HttpRequestArgs args, HttpContext context)
         {
             if (String.IsNullOrEmpty(_settings.Sites[Context.Site.Name].NotFoundPageId))
             {
                 return;
             }
 
-            var siteSpecificNotFoundPage = args.GetItem(new ID(_settings.Sites[Context.Site.Name].NotFoundPageId));
+            var siteSpecificNotFoundPage = Context.Database.GetItem(new ID(_settings.Sites[Context.Site.Name].NotFoundPageId));
             if (siteSpecificNotFoundPage == null)
             {
                 return;
             }
 
-            context.Response.Redirect(String.Format("{0}?url={1}", LinkManager.GetItemUrl(siteSpecificNotFoundPage), context.Request.RawUrl), true);
+            Context.Item = siteSpecificNotFoundPage;
         }
 
         private bool IsNot404Request(HttpContext context, HttpRequestArgs args)

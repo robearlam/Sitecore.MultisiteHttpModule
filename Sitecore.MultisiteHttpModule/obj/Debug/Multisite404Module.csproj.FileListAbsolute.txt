@@ -1,8 +1,0 @@
-D:\Projects\SitecoreModules\Multisite404Module\Multisite404Module\bin\Debug\Multisite404Module.dll
-D:\Projects\SitecoreModules\Multisite404Module\Multisite404Module\bin\Debug\Multisite404Module.pdb
-D:\Projects\SitecoreModules\Multisite404Module\Multisite404Module\bin\Debug\Sitecore.Client.dll
-D:\Projects\SitecoreModules\Multisite404Module\Multisite404Module\bin\Debug\Sitecore.Kernel.dll
-D:\Projects\SitecoreModules\Multisite404Module\Multisite404Module\bin\Debug\Sitecore.Logging.dll
-D:\Projects\SitecoreModules\Multisite404Module\Multisite404Module\bin\Debug\sitecore.nexus.dll
-D:\Projects\SitecoreModules\Multisite404Module\Multisite404Module\obj\Debug\Multisite404Module.dll
-D:\Projects\SitecoreModules\Multisite404Module\Multisite404Module\obj\Debug\Multisite404Module.pdb
