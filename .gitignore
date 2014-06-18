@@ -1,0 +1,16 @@
+# Compiled files
+*.pdb
+*.dll
+
+# Bin & Obj dirs
+MultisiteHttpModule/bin/
+MultisiteHttpModule/obj/
+MultisiteHttpModule.Tests/bin/
+MultisiteHttpModule.Tests/obj/
+
+# Nuget & Packages
+.nuget/
+packages/
+
+# VS USer files
+*.suo

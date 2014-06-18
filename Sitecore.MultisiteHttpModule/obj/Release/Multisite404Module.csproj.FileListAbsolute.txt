@@ -1,0 +1,9 @@
+D:\Projects\SitecoreModules\Multisite404Module\Multisite404Module\bin\Release\Multisite404Module.dll
+D:\Projects\SitecoreModules\Multisite404Module\Multisite404Module\bin\Release\Multisite404Module.pdb
+D:\Projects\SitecoreModules\Multisite404Module\Multisite404Module\bin\Release\Sitecore.Client.dll
+D:\Projects\SitecoreModules\Multisite404Module\Multisite404Module\bin\Release\Sitecore.Kernel.dll
+D:\Projects\SitecoreModules\Multisite404Module\Multisite404Module\bin\Release\Sitecore.Logging.dll
+D:\Projects\SitecoreModules\Multisite404Module\Multisite404Module\bin\Release\sitecore.nexus.dll
+D:\Projects\SitecoreModules\Multisite404Module\Multisite404Module\obj\Release\Multisite404Module.csprojResolveAssemblyReference.cache
+D:\Projects\SitecoreModules\Multisite404Module\Multisite404Module\obj\Release\Multisite404Module.dll
+D:\Projects\SitecoreModules\Multisite404Module\Multisite404Module\obj\Release\Multisite404Module.pdb

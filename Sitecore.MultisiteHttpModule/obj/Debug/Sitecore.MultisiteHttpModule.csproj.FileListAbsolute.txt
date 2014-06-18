@@ -1,0 +1,8 @@
+D:\Projects\SitecoreModules\Sitecore.MultisiteHttpModule\Sitecore.MultisiteHttpModule\bin\Debug\Sitecore.MultisiteHttpModule.dll.config
+D:\Projects\SitecoreModules\Sitecore.MultisiteHttpModule\Sitecore.MultisiteHttpModule\bin\Debug\Sitecore.MultisiteHttpModule.dll
+D:\Projects\SitecoreModules\Sitecore.MultisiteHttpModule\Sitecore.MultisiteHttpModule\bin\Debug\Sitecore.MultisiteHttpModule.pdb
+D:\Projects\SitecoreModules\Sitecore.MultisiteHttpModule\Sitecore.MultisiteHttpModule\bin\Debug\Sitecore.Kernel.dll
+D:\Projects\SitecoreModules\Sitecore.MultisiteHttpModule\Sitecore.MultisiteHttpModule\bin\Debug\Sitecore.Logging.dll
+D:\Projects\SitecoreModules\Sitecore.MultisiteHttpModule\Sitecore.MultisiteHttpModule\obj\Debug\Sitecore.MultisiteHttpModule.csprojResolveAssemblyReference.cache
+D:\Projects\SitecoreModules\Sitecore.MultisiteHttpModule\Sitecore.MultisiteHttpModule\obj\Debug\Sitecore.MultisiteHttpModule.dll
+D:\Projects\SitecoreModules\Sitecore.MultisiteHttpModule\Sitecore.MultisiteHttpModule\obj\Debug\Sitecore.MultisiteHttpModule.pdb

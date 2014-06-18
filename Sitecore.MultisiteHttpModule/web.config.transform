@@ -1,0 +1,21 @@
+﻿<?xml version="1.0"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+    <configSections>
+        <section name="multisiteHttpModule" type="Sitecore.MultisiteHttpModule.Configuration.MultisiteHttpModuleSettings, Sitecore.MultisiteHttpModule" />
+    </configSections>
+
+    <multisiteHttpModule defaultErrorPage="/error.html" errorsEnabled="True" notFoundEnabled="True">
+        <sites>
+            <add name="website" notFoundPageId="{11111111-1111-1111-1111-111111111111}" errorPage="/errors/website.html" robotsFile="robots.website.txt" />
+        </sites>
+        <exclude404Rules>
+            <add type="StartsWith" match="/api" />
+            <add type="Contains" match="~/media/" />
+            <add type="Contains" match="~/icon/" />
+            <add type="Contains" match="~/link.aspx" />
+            <add type="StartsWith" match="/sitecore" />
+            <add type="Contains" match=".asmx" />
+            <add type="Contains" match=".ashx" />
+        </exclude404Rules>
+    </multisiteHttpModule>
+</configuration>
