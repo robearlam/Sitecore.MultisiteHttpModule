@@ -30,11 +30,5 @@ namespace Sitecore.MultisiteHttpModule.Configuration
         {
             get { return base["exclude404Rules"] as Exclude404RuleCollection; }
         }
-
-        [ConfigurationProperty("sites", IsDefaultCollection = false)]
-        public SiteCollection Sites
-        {
-            get { return base["sites"] as SiteCollection; }
-        }
     }
 }

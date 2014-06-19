@@ -20,9 +20,9 @@ namespace Sitecore.MultisiteHttpModule.NotFound
                     _notFoundManager.ProcessRequest(args, context);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Log.Error(String.Format("MultiSite404Handler: Unable to process 404 for url [{0}] due to {1} {2}", context.Request.RawUrl, ex.Message, ex.StackTrace), this);
+                Log.Error(String.Format("Sitecore.MultiSite404Handler: Unable to process 404 for url [{0}] due to {1} {2}", context.Request.RawUrl, ex.Message, ex.StackTrace), this);
             }
         }
     }

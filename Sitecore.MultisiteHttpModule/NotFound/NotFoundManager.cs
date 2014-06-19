@@ -20,10 +20,7 @@ namespace Sitecore.MultisiteHttpModule.NotFound
                 return;
             }
 
-            if (_settings.Sites[Context.Site.Name] != null)
-            {
-                SwitchTo404ItemAndChangeResponseType(args, context);
-            }
+            SwitchTo404Item();
         }
 
         private void EnsureSettingsArePopulated()
@@ -34,30 +31,38 @@ namespace Sitecore.MultisiteHttpModule.NotFound
             }
         }
 
-        private void SwitchTo404ItemAndChangeResponseType(HttpRequestArgs args, HttpContext context)
+        private void SwitchTo404Item()
         {
-            if (String.IsNullOrEmpty(_settings.Sites[Context.Site.Name].NotFoundPageId))
+            var notFoundPageId = Context.Site.Properties[Settings.Constants.PropertyNames.NotFoundPageId];
+            if (string.IsNullOrEmpty(notFoundPageId))
             {
                 return;
             }
 
-            var siteSpecificNotFoundPage = Context.Database.GetItem(new ID(_settings.Sites[Context.Site.Name].NotFoundPageId));
-            if (siteSpecificNotFoundPage == null)
+            if (ID.IsID(notFoundPageId) || notFoundPageId.StartsWith(Constants.ContentPath))
             {
-                return;
+                Context.Item = Context.Site.Database.GetItem(notFoundPageId);
             }
-
-            Context.Item = siteSpecificNotFoundPage;
         }
         private bool IsNot404Request(HttpContext context, HttpRequestArgs args)
         {
-            return Context.Database.GetItem(args.Url.ItemPath) != null
-                || Context.Site == null
-                || Context.Site.Name == "shell"
-                || Context.Database == null
+            return IsSitecoreContextValid(args)
                 || IsValidAlias(args)
                 || ShouldUrlBeExcluded(context.Request.RawUrl)
-                || System.IO.File.Exists(context.Server.MapPath(CleanUrl(context.Request.RawUrl)));
+                || IsRequestForPhysicalFile(context);
+        }
+
+        private bool IsSitecoreContextValid(HttpRequestArgs args)
+        {
+            return Context.Database.GetItem(args.Url.ItemPath) != null
+                   || Context.Site == null
+                   || Context.Site.Name == "shell"
+                   || Context.Database == null;
+        }
+
+        private bool IsRequestForPhysicalFile(HttpContext context)
+        {
+            return System.IO.File.Exists(context.Server.MapPath(CleanUrl(context.Request.RawUrl)));
         }
 
         private bool IsValidAlias(HttpRequestArgs args)

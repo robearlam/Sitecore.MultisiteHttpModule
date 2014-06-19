@@ -56,8 +56,6 @@
     <Compile Include="Configuration\Exclude404Rule.cs" />
     <Compile Include="Configuration\Exclude404RuleCollection.cs" />
     <Compile Include="Configuration\MultisiteHttpModuleSettings.cs" />
-    <Compile Include="Configuration\Site.cs" />
-    <Compile Include="Configuration\SiteCollection.cs" />
     <Compile Include="NotFound\NotFoundManager.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="NotFound\NotFoundHandler.cs" />
