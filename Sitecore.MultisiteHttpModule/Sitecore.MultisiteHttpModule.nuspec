@@ -13,7 +13,7 @@
         <tags>Sitecore http multisite 404 500 robots</tags>
     </metadata>
     <files>
-        <file src="App_Config\Include\MultisiteHttpModule.config" target="content\App_Config\Include\MultisiteHttpModule.config" />
+        <file src="App_Config\Include\Sitecore.MultisiteHttpModule.config" target="content\App_Config\Include\Sitecore.MultisiteHttpModule.config" />
         <file src="web.config.transform" target="content\web.config.transform" />
     </files>
 </package>

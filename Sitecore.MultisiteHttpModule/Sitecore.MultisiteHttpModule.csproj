@@ -58,12 +58,12 @@
     <Compile Include="Configuration\MultisiteHttpModuleSettings.cs" />
     <Compile Include="Configuration\Site.cs" />
     <Compile Include="Configuration\SiteCollection.cs" />
+    <Compile Include="NotFound\NotFoundManager.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="NotFound\NotFoundHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config" />
     <None Include="App_Config\Include\Sitecore.MultisiteHttpModule.config">
       <SubType>Designer</SubType>
     </None>
