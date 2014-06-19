@@ -15,7 +15,7 @@ namespace Sitecore.MultisiteHttpModule.NotFound
         public void ProcessRequest(HttpRequestArgs args, HttpContext context)
         {
             EnsureSettingsArePopulated();
-            if (IsNot404Request(context, args))
+            if (!_settings.NotFoundEnabled || IsNot404Request(context, args))
             {
                 return;
             }

@@ -7,6 +7,7 @@
             public class PropertyNames
             {
                 public const string NotFoundPageId = "notFoundPageId";
+                public const string ErrorPagePath = "errorPagePath";
             }
         }
 
