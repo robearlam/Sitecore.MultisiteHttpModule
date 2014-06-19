@@ -14,4 +14,10 @@
             <add type="Contains" match=".ashx" />
         </exclude404Rules>
     </multisiteHttpModule>
+
+    <system.webServer>
+        <handlers>
+            <add name="RobotsHandler" path="/robots.txt" verb="GET" type="Sitecore.MultisiteHttpModule.Robots.RobotsHandler, Sitecore.MultisiteHttpModule" />
+        </handlers>
+    </system.webServer>
 </configuration>

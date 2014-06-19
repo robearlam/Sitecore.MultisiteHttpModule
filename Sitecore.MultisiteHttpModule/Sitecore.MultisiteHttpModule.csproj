@@ -58,6 +58,7 @@
     <Compile Include="Configuration\MultisiteHttpModuleSettings.cs" />
     <Compile Include="Errors\ErrorHandler.cs" />
     <Compile Include="NotFound\NotFoundManager.cs" />
+    <Compile Include="Robots\RobotsHandler.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="NotFound\NotFoundHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
