@@ -38,10 +38,7 @@ namespace Sitecore.MultisiteHttpModule.Errors
 
         private void LogError(Exception ex)
         {
-            Log.Error(
-                ex != null
-                    ? String.Format("Sitecore.MultiSite404Handler: Unhandled exception caught {0} {1}", ex.Message, ex.StackTrace)
-                    : "Sitecore.MultiSite404Handler: Unhandled exception caught with null exception", this);
+            Log.Error(String.Format("Sitecore.MultisiteHttpModule.Errors: Unhandled exception caught {0} {1}", ex.Message, ex.StackTrace), this);
         }
 
         private void RedirectUserToErrorPage()

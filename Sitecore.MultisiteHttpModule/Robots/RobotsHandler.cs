@@ -22,21 +22,19 @@ namespace Sitecore.MultisiteHttpModule.Robots
             SendRobotsResponse(context, site, robotsFileLocation);
         }
 
-        private void SendRobotsResponse(HttpContext context, SiteContext site, string robotsFileLocation)
+        private void EnsureSettingsArePopulated()
         {
-            try
+            if (_settings == null)
             {
-                using (var robotsFile = new StreamReader(context.Server.MapPath("~/" + robotsFileLocation)))
-                {
-                    var fileContents = robotsFile.ReadToEnd();
-                    context.Response.ContentType = "text/plain";
-                    context.Response.Write(fileContents);
-                }
+                _settings = ConfigurationManager.GetSection("multisiteHttpModule") as MultisiteHttpModuleSettings;
             }
-            catch(Exception ex)
-            {
-                Log.Error(String.Format("Sitecore.MultiSite404Handler: Unable to process robots for site [{0}] due to {1} {2}", site.Name, ex.Message, ex.StackTrace), this);
-            }
+        }
+
+        private SiteContext GetSiteFromDomain()
+        {
+            var sites = Sitecore.Configuration.Factory.GetSiteInfoList();
+            var site = sites.FirstOrDefault(x => x.HostName.Contains(HttpContext.Current.Request.Url.DnsSafeHost));
+            return site != null ? new SiteContext(site) : null;
         }
 
         private string GetRobotsFileLocation(SiteContext site)
@@ -52,18 +50,23 @@ namespace Sitecore.MultisiteHttpModule.Robots
             return Settings.Constants.DefaultRobotsFile;
         }
 
-        private SiteContext GetSiteFromDomain()
+        private void SendRobotsResponse(HttpContext context, SiteContext site, string robotsFileLocation)
         {
-            var sites = Sitecore.Configuration.Factory.GetSiteInfoList();
-            var site = sites.FirstOrDefault(x => x.HostName.Contains(HttpContext.Current.Request.Url.DnsSafeHost));
-            return site != null ? new SiteContext(site) : null;
-        }
-
-        private void EnsureSettingsArePopulated()
-        {
-            if (_settings == null)
+            try
             {
-                _settings = ConfigurationManager.GetSection("multisiteHttpModule") as MultisiteHttpModuleSettings;
+                using (var robotsFile = new StreamReader(context.Server.MapPath("~/" + robotsFileLocation)))
+                {
+                    var fileContents = robotsFile.ReadToEnd();
+                    context.Response.ContentType = "text/plain";
+                    context.Response.Write(fileContents);
+                }
+            }
+            catch(Exception ex)
+            {
+                Log.Error(
+                    site == null
+                        ? String.Format("Sitecore.MultisiteHttpModule.Robots: Unable to process robots for null site, using url [{0}] due to {1} {2}", context.Request.RawUrl, ex.Message, ex.StackTrace)
+                        : String.Format("Sitecore.MultisiteHttpModule.Robots: Unable to process robots for site [{0}] due to {1} {2}", site.Name, ex.Message, ex.StackTrace), this);
             }
         }
 
