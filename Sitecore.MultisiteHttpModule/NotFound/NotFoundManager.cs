@@ -15,12 +15,10 @@ namespace Sitecore.MultisiteHttpModule.NotFound
         public void ProcessRequest(HttpRequestArgs args, HttpContext context)
         {
             EnsureSettingsArePopulated();
-            if (!_settings.NotFoundEnabled || IsNot404Request(context, args))
+            if (RequestShouldBeProcessedAs404(args, context))
             {
-                return;
-            }
-
-            SwitchTo404Item();
+                SwitchTo404Item();
+            }          
         }
 
         private void EnsureSettingsArePopulated()
@@ -31,11 +29,19 @@ namespace Sitecore.MultisiteHttpModule.NotFound
             }
         }
 
+        private bool RequestShouldBeProcessedAs404(HttpRequestArgs args, HttpContext context)
+        {
+            return _settings.NotFoundEnabled 
+                && !IsValidUrlRequest(context, args)
+                && IsSitecoreContextAvailable();
+        }
+
         private void SwitchTo404Item()
         {
             var notFoundPageId = Context.Site.Properties[Settings.Constants.PropertyNames.NotFoundPageId];
             if (string.IsNullOrEmpty(notFoundPageId))
             {
+                Log.Warn(String.Format("Sitecore.MultisiteHttpModule.NotFound: 404 page id not populated for site [{0}]", Context.Site.Name), this);
                 return;
             }
 
@@ -44,20 +50,31 @@ namespace Sitecore.MultisiteHttpModule.NotFound
                 Context.Item = Context.Site.Database.GetItem(notFoundPageId);
             }
         }
-        private bool IsNot404Request(HttpContext context, HttpRequestArgs args)
+
+        private bool IsValidUrlRequest(HttpContext context, HttpRequestArgs args)
         {
-            return IsSitecoreContextValid(args)
+            return IsContextItemPopulated()
+                || IsSitecoreCmsClientRequest()
                 || IsValidAlias(args)
                 || ShouldUrlBeExcluded(context.Request.RawUrl)
                 || IsRequestForPhysicalFile(context);
         }
 
-        private bool IsSitecoreContextValid(HttpRequestArgs args)
+        private bool IsSitecoreContextAvailable()
         {
-            return Context.Database.GetItem(args.Url.ItemPath) != null
-                   || Context.Site == null
-                   || Context.Site.Name == "shell"
-                   || Context.Database == null;
+            return Context.Site != null
+                   && Context.Database != null;
+        }
+
+        private bool IsContextItemPopulated()
+        {
+            return Context.Item != null;
+        }
+
+        private bool IsSitecoreCmsClientRequest()
+        {
+            return Context.Site != null
+                && Context.Site.Name == Constants.ShellSiteName;
         }
 
         private bool IsRequestForPhysicalFile(HttpContext context)
@@ -97,7 +114,7 @@ namespace Sitecore.MultisiteHttpModule.NotFound
                 return true;
             }
 
-            Log.Warn(String.Format("MultiSite404Handler: Found alias [{0}] but the target item does not exist", args.LocalPath), this);
+            Log.Warn(String.Format("Sitecore.MultisiteHttpModule.NotFound: Found alias [{0}] but the target item does not exist", args.LocalPath), this);
             return false;
         }
 
