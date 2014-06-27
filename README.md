@@ -6,7 +6,13 @@ A Sitecore module to allow for easy configuration of site specific 404 pages, 50
 ## Installation Instructions
 
 ### Nuget
-This repository contains a nuspec file. If you wish you can host the project on your internal nuget repo and from there  install using the nuget package manager within Visual Studio. If installing using this method, you still need to manually edit your Global.ascx.cs to include the reference to the error handling code
+This module is hosted in nuget and can be installed in Visual Studio via the package manager using the following command:
+
+```nuget
+PM> Install-Package Sitecore.MultisiteHttpModule
+```
+
+All you need to do then is to manually edit your Global.ascx.cs to include the reference to the error handling code
 
 ```c#
 public void Application_Error(object sender, EventArgs args)
