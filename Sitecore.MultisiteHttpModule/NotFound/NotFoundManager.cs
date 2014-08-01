@@ -5,6 +5,7 @@ using Sitecore.Pipelines.HttpRequest;
 using System;
 using System.Configuration;
 using System.Web;
+using Sitecore.SecurityModel;
 
 namespace Sitecore.MultisiteHttpModule.NotFound
 {
@@ -54,30 +55,40 @@ namespace Sitecore.MultisiteHttpModule.NotFound
         private bool IsValidUrlRequest(HttpContext context, HttpRequestArgs args)
         {
             return IsContextItemPopulated()
+                || ItemExistsButUserLacksPermissions(context)
                 || IsSitecoreCmsClientRequest()
                 || IsValidAlias(args)
                 || ShouldUrlBeExcluded(context.Request.RawUrl)
                 || IsRequestForPhysicalFile(context);
         }
 
-        private bool IsSitecoreContextAvailable()
+        private static bool ItemExistsButUserLacksPermissions(HttpContext context)
+        {
+            using (new SecurityDisabler())
+            {
+                var itemPath = Context.Site.ContentStartPath + Context.Site.StartItem + context.Request.RawUrl;
+                return Context.Database.GetItem(itemPath) != null;
+            }
+        }
+
+        private static bool IsSitecoreContextAvailable()
         {
             return Context.Site != null
                    && Context.Database != null;
         }
 
-        private bool IsContextItemPopulated()
+        private static bool IsContextItemPopulated()
         {
             return Context.Item != null;
         }
 
-        private bool IsSitecoreCmsClientRequest()
+        private static bool IsSitecoreCmsClientRequest()
         {
             return Context.Site != null
                 && Context.Site.Name == Constants.ShellSiteName;
         }
 
-        private bool IsRequestForPhysicalFile(HttpContext context)
+        private static bool IsRequestForPhysicalFile(HttpContext context)
         {
             return System.IO.File.Exists(context.Server.MapPath(CleanUrl(context.Request.RawUrl)));
         }
@@ -143,7 +154,7 @@ namespace Sitecore.MultisiteHttpModule.NotFound
             return shouldBeExcluded;
         }
 
-        private string CleanUrl(string rawval)
+        private static string CleanUrl(string rawval)
         {
             return rawval.Replace("*", String.Empty)
                 .Replace("?", String.Empty)
