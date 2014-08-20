@@ -32,9 +32,9 @@ namespace Sitecore.MultisiteHttpModule.NotFound
 
         private bool RequestShouldBeProcessedAs404(HttpRequestArgs args, HttpContext context)
         {
-            return _settings.NotFoundEnabled 
-                && !IsValidUrlRequest(context, args)
-                && IsSitecoreContextAvailable();
+            return _settings.NotFoundEnabled
+                   && IsSitecoreContextAvailable()
+                   && !IsValidUrlRequest(context, args);
         }
 
         private void SwitchTo404Item()
@@ -64,6 +64,9 @@ namespace Sitecore.MultisiteHttpModule.NotFound
 
         private static bool ItemExistsButUserLacksPermissions(HttpContext context)
         {
+            if (Context.Site == null)
+                return false;
+
             using (new SecurityDisabler())
             {
                 var itemPath = Context.Site.ContentStartPath + Context.Site.StartItem + context.Request.RawUrl;
@@ -84,8 +87,7 @@ namespace Sitecore.MultisiteHttpModule.NotFound
 
         private static bool IsSitecoreCmsClientRequest()
         {
-            return Context.Site != null
-                && Context.Site.Name == Constants.ShellSiteName;
+            return Context.Site.Name == Constants.ShellSiteName;
         }
 
         private static bool IsRequestForPhysicalFile(HttpContext context)
