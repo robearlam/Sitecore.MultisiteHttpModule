@@ -69,9 +69,19 @@ namespace Sitecore.MultisiteHttpModule.NotFound
 
             using (new SecurityDisabler())
             {
-                var itemPath = Context.Site.ContentStartPath + Context.Site.StartItem + context.Request.RawUrl;
+                var itemPath = Context.Site.ContentStartPath + Context.Site.StartItem + GetRawUrlWithoutQueryString(context);
                 return Context.Database.GetItem(itemPath) != null;
             }
+        }
+
+        private static string GetRawUrlWithoutQueryString(HttpContext context)
+        {
+            var rawUrl = context.Request.RawUrl;
+            if (rawUrl.Contains("?"))
+            {
+                rawUrl = rawUrl.Substring(0, rawUrl.IndexOf('?'));
+            }
+            return rawUrl;
         }
 
         private static bool IsSitecoreContextAvailable()
